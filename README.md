@@ -20,7 +20,7 @@ Before running the code, make sure you have the following installed:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your_username/OLMo-Finetuning.git
+   git clone https://github.com/Ritik-912/OLMo-Finetuning.git
    cd OLMo-Finetuning
    ```
 
