@@ -8,6 +8,7 @@ from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
 from torch.utils.data import Dataset
 from trl import SFTTrainer
 
+print("Making the bits and bytes Configuration as:BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type='nf4', bnb_double_quant=True, bnb_4bit_compute_dtype=torch.float16,)")
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",
@@ -15,6 +16,7 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 
+print("configuring Model,,,,")
 model_id = "allenai/OLMo-7B"
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
@@ -23,8 +25,11 @@ model = AutoModelForCausalLM.from_pretrained(
     trust_remote_code=True,
     cache_dir='/NS/ssdecl/work/'
 )
+print("model = AutoModelForCausalLM.from_pretrained("allenai/OLMo-7B", quantization_config=bnb_config, device_map='auto', trust_remote_code=True, cache_dir='/NS/ssdecl/work/')")
 
-tokenizer = AutoTokenizer.from_pretrained(model_id)
+print("Configuring Tokenizer,,,,")
+print("tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir='/NS/ssdecl/work/')")
+tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir='/NS/ssdecl/work/')
 
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
@@ -82,6 +87,7 @@ print(generate_response("### Instruction:\nBelow is an sentence. Write a label f
 
 model.config.use_cache = False
 model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=False)
+print("prepare_model_for_kbit_training(model, use_gradient_checkpointing=False)")
 
 lora_alpha = 16
 lora_dropout = 0.1
@@ -166,6 +172,8 @@ trainer = SFTTrainer(
   data_collator=custom_data_collator
 )
 
+print("Training")
 trainer.train()
+print("Training completed")
 
 model.save_pretrained()
