@@ -25,7 +25,7 @@ model = AutoModelForCausalLM.from_pretrained(
     trust_remote_code=True,
     cache_dir='/NS/ssdecl/work/'
 )
-print("model = AutoModelForCausalLM.from_pretrained("allenai/OLMo-7B", quantization_config=bnb_config, device_map='auto', trust_remote_code=True, cache_dir='/NS/ssdecl/work/')")
+print("model = AutoModelForCausalLM.from_pretrained('allenai/OLMo-7B', quantization_config=bnb_config, device_map='auto', trust_remote_code=True, cache_dir='/NS/ssdecl/work/')")
 
 print("Configuring Tokenizer,,,,")
 print("tokenizer = AutoTokenizer.from_pretrained(model_id, cache_dir='/NS/ssdecl/work/')")
